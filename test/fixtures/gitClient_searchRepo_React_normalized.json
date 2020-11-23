@@ -1,13 +1,572 @@
 {
     "bFound": true,
     "data": {
-        "name": "react",
-        "full_name": "facebook/react",
-        "private": false,
-        "description": "A declarative, efficient, and flexible JavaScript library for building user interfaces.",
-        "pulls_url": "https://api.github.com/repos/facebook/react/pulls{/number}",
-        "open_issues": 645
+            "name": "react",
+            "full_name": "facebook/react",
+            "private": false,
+            "description": "A declarative, efficient, and flexible JavaScript library for building user interfaces.",
+            "open_issues": 645,
+            "pulls_url": "https://api.github.com/repos/facebook/react/pulls{/number}"
     },
-    "numberOfPullRequests": 144,
-    "numberOfIssues": 501
+    "issuesList": [
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20311",
+          "title": "Feature Request: useComponent Hook",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-11-20T22:16:11Z",
+          "updated_at": "2020-11-22T08:34:03Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20296",
+          "title": "Error: \"Cannot read property 'concat' of undefined\"",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-11-19T03:32:47Z",
+          "updated_at": "2020-11-23T14:17:06Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20295",
+          "title": "Error: \"Could not find node with id \"7348\" in commit tree\"",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-11-19T03:30:47Z",
+          "updated_at": "2020-11-19T19:28:51Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20294",
+          "title": "Bug: function in useState hook, setting different value ",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-11-19T02:00:47Z",
+          "updated_at": "2020-11-19T10:06:51Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20262",
+          "title": "Bug: react-hooks/exhaustive-deps false postive when given undefined as deps",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-11-15T19:26:35Z",
+          "updated_at": "2020-11-20T19:39:35Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20261",
+          "title": "Bug: Components tab goes blank with React 16.8.0",
+          "state": "open",
+          "assignees": [
+            {
+              "login": "abelardolg",
+              "id": 22522883,
+              "node_id": "MDQ6VXNlcjIyNTIyODgz",
+              "avatar_url": "https://avatars3.githubusercontent.com/u/22522883?v=4",
+              "gravatar_id": "",
+              "url": "https://api.github.com/users/abelardolg",
+              "html_url": "https://github.com/abelardolg",
+              "followers_url": "https://api.github.com/users/abelardolg/followers",
+              "following_url": "https://api.github.com/users/abelardolg/following{/other_user}",
+              "gists_url": "https://api.github.com/users/abelardolg/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/abelardolg/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/abelardolg/subscriptions",
+              "organizations_url": "https://api.github.com/users/abelardolg/orgs",
+              "repos_url": "https://api.github.com/users/abelardolg/repos",
+              "events_url": "https://api.github.com/users/abelardolg/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/abelardolg/received_events",
+              "type": "User",
+              "site_admin": false
+            }
+          ],
+          "created_at": "2020-11-15T14:52:32Z",
+          "updated_at": "2020-11-16T16:54:12Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20258",
+          "title": "Issue regarding ESLint react-hooks - 'exhaustive-deps' rule ",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-11-14T23:13:55Z",
+          "updated_at": "2020-11-22T16:54:43Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20248",
+          "title": "Bug: [eslint-plugin-react-hooks] Constructions should be caught in default props/args",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-11-13T17:46:29Z",
+          "updated_at": "2020-11-13T18:23:08Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20244",
+          "title": "eslint-plugin-react-hooks: eslint doesn't see the conditional operator '??'",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-11-13T04:56:11Z",
+          "updated_at": "2020-11-18T17:20:56Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20238",
+          "title": "Bug: peerDeps react in react-test-renderer has a massive minor bump ",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-11-12T17:14:49Z",
+          "updated_at": "2020-11-12T22:40:51Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20237",
+          "title": "Bug: v16.14.0 tag is incorrectly shows v17-alpha",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-11-12T17:10:12Z",
+          "updated_at": "2020-11-12T17:11:45Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20236",
+          "title": "DevTools: Flag \"nested updates\" in the Profiler UI",
+          "state": "open",
+          "assignees": [
+            {
+              "login": "bvaughn",
+              "id": 29597,
+              "node_id": "MDQ6VXNlcjI5NTk3",
+              "avatar_url": "https://avatars0.githubusercontent.com/u/29597?v=4",
+              "gravatar_id": "",
+              "url": "https://api.github.com/users/bvaughn",
+              "html_url": "https://github.com/bvaughn",
+              "followers_url": "https://api.github.com/users/bvaughn/followers",
+              "following_url": "https://api.github.com/users/bvaughn/following{/other_user}",
+              "gists_url": "https://api.github.com/users/bvaughn/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/bvaughn/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/bvaughn/subscriptions",
+              "organizations_url": "https://api.github.com/users/bvaughn/orgs",
+              "repos_url": "https://api.github.com/users/bvaughn/repos",
+              "events_url": "https://api.github.com/users/bvaughn/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/bvaughn/received_events",
+              "type": "User",
+              "site_admin": false
+            }
+          ],
+          "created_at": "2020-11-12T16:17:08Z",
+          "updated_at": "2020-11-13T14:12:30Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20235",
+          "title": "Bug: Cannot import 'react/jsx-runtime' from esm node/webpack 5",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-11-12T15:31:54Z",
+          "updated_at": "2020-11-23T14:42:22Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20222",
+          "title": "Can I use mountReducer to refactor mountState?",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-11-11T12:32:06Z",
+          "updated_at": "2020-11-11T12:32:06Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20205",
+          "title": "Feature suggestion: Allow custom list of hooks to ignore on exhaustive-deps",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-11-09T20:01:11Z",
+          "updated_at": "2020-11-10T08:08:39Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20204",
+          "title": "Bug: eslint-plugin-react-hooks: Cannot read property 'type' of undefined at analyzePropertyChain",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-11-09T18:15:07Z",
+          "updated_at": "2020-11-11T17:49:54Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20198",
+          "title": "Re-land unmounting error boundaries changes",
+          "state": "open",
+          "assignees": [
+            {
+              "login": "bvaughn",
+              "id": 29597,
+              "node_id": "MDQ6VXNlcjI5NTk3",
+              "avatar_url": "https://avatars0.githubusercontent.com/u/29597?v=4",
+              "gravatar_id": "",
+              "url": "https://api.github.com/users/bvaughn",
+              "html_url": "https://github.com/bvaughn",
+              "followers_url": "https://api.github.com/users/bvaughn/followers",
+              "following_url": "https://api.github.com/users/bvaughn/following{/other_user}",
+              "gists_url": "https://api.github.com/users/bvaughn/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/bvaughn/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/bvaughn/subscriptions",
+              "organizations_url": "https://api.github.com/users/bvaughn/orgs",
+              "repos_url": "https://api.github.com/users/bvaughn/repos",
+              "events_url": "https://api.github.com/users/bvaughn/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/bvaughn/received_events",
+              "type": "User",
+              "site_admin": false
+            }
+          ],
+          "created_at": "2020-11-09T15:14:21Z",
+          "updated_at": "2020-11-13T14:20:06Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20197",
+          "title": "Error: \"Commit tree does not contain fiber 1527. This is a bug in React DevTools.\"",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-11-09T14:05:38Z",
+          "updated_at": "2020-11-20T17:34:16Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20196",
+          "title": "Bug: eslint-plugin-react-hooks doesn't report conditional typescript \"?.\" hooks",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-11-09T12:17:51Z",
+          "updated_at": "2020-11-09T14:10:42Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20186",
+          "title": "Distribute source maps for easier debugging in Chrome's Performance tab",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-11-06T21:10:50Z",
+          "updated_at": "2020-11-10T08:51:47Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20178",
+          "title": "Bug: devtools the expanded state and the state object are out of sync",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-11-06T11:23:28Z",
+          "updated_at": "2020-11-21T14:59:20Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20177",
+          "title": "Development flavor is way bigger than the production one",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-11-06T10:18:09Z",
+          "updated_at": "2020-11-10T13:08:43Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20176",
+          "title": "An improvement on fast return in markUpdateLaneFromFiberToRoot()",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-11-06T09:33:48Z",
+          "updated_at": "2020-11-06T09:33:48Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20173",
+          "title": "Error: \"Cannot read property 'length' of undefined\"",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-11-06T04:25:53Z",
+          "updated_at": "2020-11-06T19:17:14Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20162",
+          "title": "Bug: react-hooks/exhaustive-deps false positive when deps is defined with typescript const typing",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-11-05T12:17:58Z",
+          "updated_at": "2020-11-05T12:21:38Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20161",
+          "title": "Bug: Input minLength not working after type changed",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-11-05T09:45:52Z",
+          "updated_at": "2020-11-05T14:52:38Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20160",
+          "title": "Bug: react-hooks/exhaustive-deps false positive on additionalHooks' definition",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-11-05T09:38:32Z",
+          "updated_at": "2020-11-05T09:41:06Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20159",
+          "title": "Bug: can not pass some special custom attribute such as `size` ",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-11-04T21:15:20Z",
+          "updated_at": "2020-11-20T18:32:06Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20144",
+          "title": "React Developer Tools triggers console error in Firefox for protected URLs",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-11-02T08:23:01Z",
+          "updated_at": "2020-11-12T21:31:22Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20141",
+          "title": "Bug: Warning: unstable_flushDiscreteUpdates: Cannot flush updates when React is already rendering if debugger present",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-11-01T14:50:03Z",
+          "updated_at": "2020-11-18T14:46:13Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20139",
+          "title": "Bug: Usage of \"Reac.forwardRef\" in \"React.memo\" distorts profiling report",
+          "state": "open",
+          "assignees": [
+            {
+              "login": "bvaughn",
+              "id": 29597,
+              "node_id": "MDQ6VXNlcjI5NTk3",
+              "avatar_url": "https://avatars0.githubusercontent.com/u/29597?v=4",
+              "gravatar_id": "",
+              "url": "https://api.github.com/users/bvaughn",
+              "html_url": "https://github.com/bvaughn",
+              "followers_url": "https://api.github.com/users/bvaughn/followers",
+              "following_url": "https://api.github.com/users/bvaughn/following{/other_user}",
+              "gists_url": "https://api.github.com/users/bvaughn/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/bvaughn/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/bvaughn/subscriptions",
+              "organizations_url": "https://api.github.com/users/bvaughn/orgs",
+              "repos_url": "https://api.github.com/users/bvaughn/repos",
+              "events_url": "https://api.github.com/users/bvaughn/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/bvaughn/received_events",
+              "type": "User",
+              "site_admin": false
+            }
+          ],
+          "created_at": "2020-10-31T07:06:04Z",
+          "updated_at": "2020-11-02T16:50:36Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20135",
+          "title": "react-devtools-inline: How to remount/reuse DevTools frontend after unmount",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-10-30T03:12:49Z",
+          "updated_at": "2020-11-10T08:15:22Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20131",
+          "title": "Bug: Uncaught Error: Unable to find node on an unmounted component in react 17.0.1",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-10-29T18:27:03Z",
+          "updated_at": "2020-11-03T22:06:19Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20127",
+          "title": "Bug: Can't hydrate useOpaqueIdentifier generated object in another component",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-10-29T11:20:33Z",
+          "updated_at": "2020-10-29T12:40:06Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20123",
+          "title": "Bug: Should have a queue",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-10-29T06:21:45Z",
+          "updated_at": "2020-10-29T14:41:23Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20120",
+          "title": "Bug: React DevTools failing silently on Debian",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-10-29T01:36:45Z",
+          "updated_at": "2020-10-29T13:44:21Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20111",
+          "title": "Question: using setState to access latest state in event handler",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-10-27T20:19:20Z",
+          "updated_at": "2020-10-28T15:02:36Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20099",
+          "title": "feature: Move react-is to react/is",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-10-26T12:28:28Z",
+          "updated_at": "2020-10-26T19:25:04Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20097",
+          "title": "Feedback for 'exhaustive-deps' lint rule",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-10-26T09:13:08Z",
+          "updated_at": "2020-10-26T09:42:00Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20095",
+          "title": "Bug: react-devtools prints too many logs of WS failed",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-10-26T05:25:42Z",
+          "updated_at": "2020-10-29T02:09:58Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20088",
+          "title": "Bug: Input leaks fiber nodes in recent versions of chromium",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-10-24T00:56:07Z",
+          "updated_at": "2020-10-26T06:08:10Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20085",
+          "title": "Feature Request: Adding filter (search) to react DevTools Profiler",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-10-23T14:17:15Z",
+          "updated_at": "2020-10-23T14:35:39Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20074",
+          "title": "Bug: useEffect Timing changes depending on if Portal was rendered",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-10-21T14:25:14Z",
+          "updated_at": "2020-11-04T18:38:54Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20068",
+          "title": "Feature request: A useLayoutEffect with read/write batching across a tree",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-10-21T09:24:35Z",
+          "updated_at": "2020-10-22T08:01:07Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20065",
+          "title": "Bug: onCompositionEnd not called",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-10-21T01:41:49Z",
+          "updated_at": "2020-10-21T01:44:43Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20061",
+          "title": "Bug: Devtools' update-notifier usage is overly eager",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-10-20T18:54:39Z",
+          "updated_at": "2020-11-17T21:04:16Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20052",
+          "title": "Misspelled \"Escape\" event type in Focus.js",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-10-19T08:21:12Z",
+          "updated_at": "2020-10-19T14:21:22Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20047",
+          "title": "Clarify SSR expectations/contract",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-10-17T10:31:37Z",
+          "updated_at": "2020-10-17T17:33:35Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20031",
+          "title": "Suggestion: transforming jsx to jsx-runtime without `createElement` fallback",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-10-15T05:40:57Z",
+          "updated_at": "2020-10-18T08:24:52Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/20003",
+          "title": "Feature Request: Add Warning when consuming a context whose provider is not mounted",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-10-12T21:10:29Z",
+          "updated_at": "2020-10-17T21:01:50Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/19991",
+          "title": "Bug: Infinite rendering resulting in freezing of tab/browser",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-10-09T15:01:20Z",
+          "updated_at": "2020-10-09T15:01:20Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/19976",
+          "title": "Error: \"Electron failed to install correctly, please delete node_modules/electron and try installing again\"",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-10-07T20:11:39Z",
+          "updated_at": "2020-10-08T18:27:07Z"
+        },
+        {
+          "url": "https://api.github.com/repos/facebook/react/issues/19968",
+          "title": "Bug: Fast memory leaks on simple React App",
+          "state": "open",
+          "assignees": [
+          ],
+          "created_at": "2020-10-06T12:25:35Z",
+          "updated_at": "2020-10-28T19:16:11Z"
+        }
+      ],
+    "numberOfIssues": 53,
+    "numberOfPullRequests": 47
 }

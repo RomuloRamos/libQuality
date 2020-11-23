@@ -228,11 +228,11 @@ export class GitClient {
     private async getIssuesAllPages(objPagination: iPagination,objRepositoryFound: iRepositoryFound): Promise<boolean>{
         
         let bResult = false;
-        bResult = await this.searchOneIssue(objPagination)
+        bResult = await this.searchIssue(objPagination)
         .then(async(objResponse: AxiosResponse)=>{
             bResult = true;
             objRepositoryFound.issuesList = objRepositoryFound.issuesList.concat(objResponse.data);
-            if(!(objPagination.strCurrent === objPagination.strLast)){
+            if((!(objPagination.strCurrent === objPagination.strLast)) && (objResponse.headers.link)){
 
                 bResult = this.getPaginationValue(objPagination, objResponse.headers?.link)
                 bResult = (bResult && await this.getIssuesAllPages(objPagination, objRepositoryFound));
@@ -291,7 +291,7 @@ export class GitClient {
         const objRepositoryFound: iRepositoryFound = this.normalizeResponseRepo(response.data);//Now, its only the first element on items array.
         if(objRepositoryFound.bFound){
             // objRepositoryFound.bFound = await this.searchNuberOfIssus(objRepositoryFound);
-            objRepositoryFound.bFound = await this.searchIssues(objRepositoryFound);
+            objRepositoryFound.bFound = await this.searchAllIssues(objRepositoryFound);
         }
         return objRepositoryFound;
     }
@@ -328,7 +328,7 @@ export class GitClient {
         return false;
     }
 
-    public async searchOneIssue(objPagination: iPagination): Promise<AxiosResponse>{
+    public async searchIssue(objPagination: iPagination): Promise<AxiosResponse>{
 
         const response = await this.request.get(
             objPagination.strCurrent, this.pvObjHeader
@@ -336,7 +336,7 @@ export class GitClient {
         return response;
     }
 
-    public async searchIssues(objRepositoryFound: iRepositoryFound): Promise<boolean>{
+    public async searchAllIssues(objRepositoryFound: iRepositoryFound): Promise<boolean>{
 
         const strRepoName:string = objRepositoryFound.data?.full_name ||"";
         const issuesPagination = 100;
