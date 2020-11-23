@@ -1,0 +1,13 @@
+{
+    "bFound": true,
+    "data": {
+        "name": "react",
+        "full_name": "facebook/react",
+        "private": false,
+        "description": "A declarative, efficient, and flexible JavaScript library for building user interfaces.",
+        "pulls_url": "https://api.github.com/repos/facebook/react/pulls{/number}",
+        "open_issues": 645
+    },
+    "numberOfPullRequests": 144,
+    "numberOfIssues": 501
+}
