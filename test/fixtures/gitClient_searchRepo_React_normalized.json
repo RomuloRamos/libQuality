@@ -568,5 +568,6 @@
         }
       ],
     "numberOfIssues": 53,
-    "numberOfPullRequests": 47
+    "numberOfPullRequests": 47,
+    "bIssueIsNormalized":true
 }
