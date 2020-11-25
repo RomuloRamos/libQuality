@@ -1,26 +1,26 @@
 import {AxiosResponse, AxiosStatic} from 'axios';
 import config, {IConfig} from 'config';
-
+import * as HttpUtil from '@src/util/request';
 //Creating a interface to response shape
-export interface searchOrgResponse {
-    login: string;//"RomuloRamos",
-    id: number;// 45272564,
-    node_id: string;// "MDQ6VXNlcjQ1MjcyNTY0",
-    url: string;// "https://api.github.com/users/RomuloRamos",
-    html_url: string;// "https://github.com/RomuloRamos",
-    gists_url: string;// "https://api.github.com/users/RomuloRamos/gists{/gist_id}",
-    organizations_url: string;// "https://api.github.com/users/RomuloRamos/orgs",
-    repos_url: string;// "https://api.github.com/users/RomuloRamos/repos",
-    type: string;// "User",
-    site_admin: boolean;// false,
-    name: string;//" "RÔMULO FRANKLIN DE MEIRA RAMOS",
-    company: string;// null,
-    public_repos: number;// 5,
-    public_gists: number;// 0,
-    followers: number;// 0,
-    following: number;// 0,
-    created_at: string;// "2018-11-22T20:10:16Z",
-    updated_at: string;// "2020-11-06T03:33:42Z"
+export interface searchOrgResponse {    //Example:
+    login: string;                      // "RomuloRamos",
+    id: number;                         // 45272564,
+    node_id: string;                    // "MDQ6VXNlcjQ1MjcyNTY0",
+    url: string;                        // "https://api.github.com/users/RomuloRamos",
+    html_url: string;                   // "https://github.com/RomuloRamos",
+    gists_url: string;                  // "https://api.github.com/users/RomuloRamos/gists{/gist_id}",
+    organizations_url: string;          // "https://api.github.com/users/RomuloRamos/orgs",
+    repos_url: string;                  // "https://api.github.com/users/RomuloRamos/repos",
+    type: string;                       // "User",
+    site_admin: boolean;                // false,
+    name: string;                       // RÔMULO FRANKLIN DE MEIRA RAMOS",
+    company: string;                    // null,
+    public_repos: number;               // 5,
+    public_gists: number;               // 0,
+    followers: number;                  // 0,
+    following: number;                  // 0,
+    created_at: string;                 // "2018-11-22T20:10:16Z",
+    updated_at: string;                 // "2020-11-06T03:33:42Z"
 }
 
 export interface pointRepositories{
@@ -46,9 +46,6 @@ export interface iRepositoryFound {
     numberOfIssues: number;
     issuesList: unknown[];
     bIssueIsNormalized: boolean;
-    averageDays: number;
-    varianceValue: number;
-    stdDeviation: number;
 }
 
 export interface iPagination {
@@ -70,23 +67,24 @@ export interface iIssueNormalized {
 }
 
 const gitHubResourceConfig: IConfig = config.get('App.resources.Github');
-
 export class GitClient {
+
     private pvStrBaseUrl: string;
     private pvStrUrlMiddle: string;
     private pvStrQuery: string;
     private pvObjHeader = {};
 
-    constructor(protected request: AxiosStatic){//This constructor expect a axios instance, atributed to property "request" inside the class
-        this.pvStrBaseUrl = gitHubResourceConfig.get('apiUrl');
-        this.pvStrUrlMiddle = '/search/repositories';
-        this.pvStrQuery = '';
-        const objHeader = {
-                Accept: 'application/vnd.github.v3+json',
-                Authorization: `token ${gitHubResourceConfig.get('apiToken')}`
-        };
-        this.setHeader(objHeader);
-    }
+    constructor(protected request = HttpUtil) {
+    this.pvStrBaseUrl = gitHubResourceConfig.get('apiUrl');
+    this.pvStrBaseUrl = 'https://api.github.com/';
+    this.pvStrUrlMiddle = '/search/repositories';
+    this.pvStrQuery = '';
+    const objHeader = {
+            Accept: 'application/vnd.github.v3+json',
+            Authorization: `token ${gitHubResourceConfig.get('apiToken')}`
+    };
+    this.setHeader(objHeader);
+}
 
     //Checking Key validation to each element received on object
     private isValidPoint(pointRerence: any, pointReceived: Partial<searchOrgResponse>): boolean{
@@ -115,9 +113,6 @@ export class GitClient {
             numberOfIssues:0,
             issuesList: [],
             bIssueIsNormalized: false,
-            averageDays:0,
-            varianceValue:0,
-            stdDeviation:0,
         }
         objRepositoryFound.bFound = this.isValidPoint(objNormalized, objResponse.items[0]);
         if(objRepositoryFound.bFound){
@@ -132,72 +127,38 @@ export class GitClient {
         return objRepositoryFound;
     }
 
-    private normalizeIssue(objRepositoryFound: iRepositoryFound): boolean{
+    public normalizeIssues(objRepositoryFound: iRepositoryFound): boolean{
         
         let bResult = false;
         let arrIssueNomalized: iIssueNormalized[] = [];
-        objRepositoryFound.issuesList.forEach((objIssue:any)=>{
-            const objIssueNomalized: iIssueNormalized = {
-                url: "",
-                title:  "",
-                state:  "",
-                assignees: [],
-                created_at: "",
-                updated_at: "",
-            }
-            bResult = this.isValidPoint(objIssue, objIssue);
-            if(bResult){//Valid object Issue
-                Object.keys(objIssueNomalized).forEach((key, index) => {
-    
-                    objIssueNomalized[key] = objIssue[key];
-                });    
-            }
-            arrIssueNomalized = [...arrIssueNomalized, objIssueNomalized];   
-        });
-        if(bResult){
-            objRepositoryFound.issuesList = [...arrIssueNomalized];
-            objRepositoryFound.bIssueIsNormalized =true;
-        }   
+        if(objRepositoryFound.bFound){
 
-        return objRepositoryFound.bFound;
-    }
-
-    private calculateAvgAgeIssue(objRepositoryFound: iRepositoryFound): boolean{
+            objRepositoryFound.issuesList.forEach((objIssue:any)=>{
+                const objIssueNomalized: iIssueNormalized = {
+                    url: "",
+                    title:  "",
+                    state:  "",
+                    assignees: [],
+                    created_at: "",
+                    updated_at: "",
+                }
+                bResult = this.isValidPoint(objIssue, objIssue);
+                if(bResult){//Valid object Issue
+                    Object.keys(objIssueNomalized).forEach((key, index) => {
         
-        let timestampDifference = 0;
-        let numbOfDaysTotal = 0;
-        objRepositoryFound.issuesList.forEach((objIssueNormalized:any) =>{
+                        objIssueNomalized[key] = objIssue[key];
+                    });    
+                    arrIssueNomalized = [...arrIssueNomalized, objIssueNomalized];   
+                }
+            });
+            if(bResult){
+                objRepositoryFound.issuesList = [...arrIssueNomalized];
+                objRepositoryFound.bIssueIsNormalized =true;
+            }   
+        }
 
-            const dateAux = new Date(objIssueNormalized.created_at);
-            const dateNow = new Date();
-            timestampDifference = (dateNow.getTime() - dateAux.getTime());
-            numbOfDaysTotal += timestampDifference/(1000*60*60*24);
-        });
-        objRepositoryFound.averageDays = numbOfDaysTotal/objRepositoryFound.numberOfIssues;
-
-        this.calculateVarianceAgeIssue(objRepositoryFound); //TODO - MUDAR DE LUGAR!
-        return true;
+        return bResult;
     }
-
-    private calculateVarianceAgeIssue(objRepositoryFound: iRepositoryFound): boolean{
-        
-        let timestampDiference = 0;
-        let numbOfDaysTotal = 0;
-        let varianceValue = 0;
-        objRepositoryFound.issuesList.forEach((objIssueNormalized:any) =>{
-
-            const dateAux = new Date(objIssueNormalized.created_at);
-            const dateNow = new Date();
-            timestampDiference = (dateNow.getTime() - dateAux.getTime());
-            numbOfDaysTotal = timestampDiference/(1000*60*60*24);
-            const differenceValue = (numbOfDaysTotal - objRepositoryFound.averageDays);
-            varianceValue += ((differenceValue*differenceValue)/objRepositoryFound.numberOfIssues);
-        });
-        objRepositoryFound.varianceValue = varianceValue;
-        objRepositoryFound.stdDeviation = Math.sqrt(varianceValue);
-        return true;
-    }
-
 
     private getPaginationValue(objPagination: iPagination,strHeaderLink: string): boolean {
         const strLinkToIssuesPages = strHeaderLink.split(',');
@@ -232,7 +193,7 @@ export class GitClient {
         
         let bResult = false;
         bResult = await this.searchIssue(objPagination)
-        .then(async(objResponse: AxiosResponse)=>{
+        .then(async(objResponse: HttpUtil.Response)=>{
             bResult = true;
             objRepositoryFound.issuesList = objRepositoryFound.issuesList.concat(objResponse.data);
             if((!(objPagination.strCurrent === objPagination.strLast)) && (objResponse.headers.link)){
@@ -299,7 +260,7 @@ export class GitClient {
         return objRepositoryFound;
     }
 
-    public async searchPullRequest(strRepoName: string, intPage = 1): Promise<AxiosResponse>{
+    public async searchPullRequest(strRepoName: string, intPage = 1): Promise<HttpUtil.Response>{
         this.setBaseUrl('https://api.github.com');
         this.setUrlMiddle(`/repos/${strRepoName}/pulls`);
         this.setUrlQuery(`?state:open&per_page=${intPage}`);
@@ -313,10 +274,7 @@ export class GitClient {
 
         if(objRepositoryFound?.bFound){
             const strRepoName:string = objRepositoryFound.data?.full_name ||"";
-            const objPullRequest:AxiosResponse = await this.searchPullRequest(strRepoName);
-            // let strLinkToIssuesPages: string = objPullRequest.headers.link.split('>');
-            // strLinkToIssuesPages = strLinkToIssuesPages[1];
-            // strLinkToIssuesPages = strLinkToIssuesPages.split('&')[2].split('=')[1];
+            const objPullRequest:HttpUtil.Response = await this.searchPullRequest(strRepoName);
             const strLinkToIssuesPages: string = objPullRequest.headers.link.split('>')[1].split('&')[2].split('=')[1];//This, clean the string until the interested number
             objRepositoryFound.numberOfPullRequests = Number(strLinkToIssuesPages);
             
@@ -331,7 +289,7 @@ export class GitClient {
         return false;
     }
 
-    public async searchIssue(objPagination: iPagination): Promise<AxiosResponse>{
+    public async searchIssue(objPagination: iPagination): Promise<HttpUtil.Response>{
 
         const response = await this.request.get(
             objPagination.strCurrent, this.pvObjHeader
@@ -339,7 +297,7 @@ export class GitClient {
         return response;
     }
 
-    public async searchAllIssues(objRepositoryFound: iRepositoryFound): Promise<boolean>{
+    public async searchAllIssues(objRepositoryFound: iRepositoryFound, bNormalizeIssue = true): Promise<boolean>{
 
         const strRepoName:string = objRepositoryFound.data?.full_name ||"";
         const issuesPagination = 100;
@@ -361,11 +319,11 @@ export class GitClient {
                 }
                 return true;
             });
-            bResult = this.normalizeIssue(objRepositoryFound);
+            if(bNormalizeIssue){
+                bResult = this.normalizeIssues(objRepositoryFound);
+            }
 
             objRepositoryFound.numberOfIssues = objRepositoryFound.issuesList.length;
-
-            this.calculateAvgAgeIssue(objRepositoryFound);
         }
         return bResult;
         
