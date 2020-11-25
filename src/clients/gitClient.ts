@@ -1,4 +1,5 @@
 import {AxiosResponse, AxiosStatic} from 'axios';
+import config, {IConfig} from 'config';
 
 //Creating a interface to response shape
 export interface searchOrgResponse {
@@ -68,6 +69,8 @@ export interface iIssueNormalized {
     updated_at: string;
 }
 
+const gitHubResourceConfig: IConfig = config.get('App.resources.Github');
+
 export class GitClient {
     private pvStrBaseUrl: string;
     private pvStrUrlMiddle: string;
@@ -75,12 +78,12 @@ export class GitClient {
     private pvObjHeader = {};
 
     constructor(protected request: AxiosStatic){//This constructor expect a axios instance, atributed to property "request" inside the class
-        this.pvStrBaseUrl = 'https://api.github.com/';
+        this.pvStrBaseUrl = gitHubResourceConfig.get('apiUrl');
         this.pvStrUrlMiddle = '/search/repositories';
         this.pvStrQuery = '';
         const objHeader = {
                 Accept: 'application/vnd.github.v3+json',
-                Authorization: "token c08b844f099835e41fa70640b3da47982fabdb22"
+                Authorization: `token ${gitHubResourceConfig.get('apiToken')}`
         };
         this.setHeader(objHeader);
     }

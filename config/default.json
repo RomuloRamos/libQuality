@@ -1,0 +1,13 @@
+{
+    "App":{
+        "database":{
+            "mongoUrl":"mongodb://localhost:27017/libquality"
+        },
+        "resources":{
+            "Github":{
+                "apiUrl":"https://api.github.com",
+                "apiToken":"c08b844f099835e41fa70640b3da47982fabdb22"
+            }
+        }
+    }
+}
