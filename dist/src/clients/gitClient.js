@@ -1,25 +1,56 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GitClient = void 0;
+const config_1 = __importDefault(require("config"));
+const HttpUtil = __importStar(require("@src/util/request"));
+const gitHubResourceConfig = config_1.default.get('App.resources.Github');
 class GitClient {
-    constructor(request) {
+    constructor(request = new HttpUtil.Request()) {
         this.request = request;
+        this.pvStrBaseUrl = "";
+        this.pvStrUrlMiddle = "";
+        this.pvStrQuery = "";
         this.pvObjHeader = {};
-        this.pvStrBaseUrl = 'https://api.github.com/';
-        this.pvStrUrlMiddle = '/search/repositories';
-        this.pvStrQuery = '';
+        this.setBaseUrl(gitHubResourceConfig.get('apiUrl'));
+        this.setUrlMiddle('/search/repositories');
+        this.setUrlQuery('');
         const objHeader = {
             Accept: 'application/vnd.github.v3+json',
-            Authorization: "token c08b844f099835e41fa70640b3da47982fabdb22"
+            Authorization: `token ${gitHubResourceConfig.get('apiToken')}`
         };
         this.setHeader(objHeader);
     }
     isValidPoint(pointRerence, pointReceived) {
-        const bResult = Object.keys(pointRerence).every(keyFound => {
-            const otherRESULT = !!(keyFound in pointReceived);
-            return otherRESULT;
-        });
-        return bResult;
+        if (pointReceived && pointRerence) {
+            const bResult = Object.keys(pointRerence).every(keyFound => {
+                const otherRESULT = !!(keyFound in pointReceived);
+                return otherRESULT;
+            });
+            return bResult;
+        }
+        return false;
     }
     normalizeResponseRepo(objResponse) {
         const objNormalized = {
@@ -29,6 +60,10 @@ class GitClient {
             description: "",
             open_issues: 0,
             pulls_url: "",
+            forks_count: 0,
+            forks_url: "",
+            stargazers_count: 0,
+            collaborators_url: "",
         };
         const objRepositoryFound = {
             bFound: false,
@@ -37,9 +72,6 @@ class GitClient {
             numberOfIssues: 0,
             issuesList: [],
             bIssueIsNormalized: false,
-            averageDays: 0,
-            varianceValue: 0,
-            stdDeviation: 0,
         };
         objRepositoryFound.bFound = this.isValidPoint(objNormalized, objResponse.items[0]);
         if (objRepositoryFound.bFound) {
@@ -50,61 +82,6 @@ class GitClient {
             objRepositoryFound.data = objNormalized;
         }
         return objRepositoryFound;
-    }
-    normalizeIssue(objRepositoryFound) {
-        let bResult = false;
-        let arrIssueNomalized = [];
-        objRepositoryFound.issuesList.forEach((objIssue) => {
-            const objIssueNomalized = {
-                url: "",
-                title: "",
-                state: "",
-                assignees: [],
-                created_at: "",
-                updated_at: "",
-            };
-            bResult = this.isValidPoint(objIssue, objIssue);
-            if (bResult) {
-                Object.keys(objIssueNomalized).forEach((key, index) => {
-                    objIssueNomalized[key] = objIssue[key];
-                });
-            }
-            arrIssueNomalized = [...arrIssueNomalized, objIssueNomalized];
-        });
-        if (bResult) {
-            objRepositoryFound.issuesList = [...arrIssueNomalized];
-            objRepositoryFound.bIssueIsNormalized = true;
-        }
-        return objRepositoryFound.bFound;
-    }
-    calculateAvgAgeIssue(objRepositoryFound) {
-        let timestampDifference = 0;
-        let numbOfDaysTotal = 0;
-        objRepositoryFound.issuesList.forEach((objIssueNormalized) => {
-            const dateAux = new Date(objIssueNormalized.created_at);
-            const dateNow = new Date();
-            timestampDifference = (dateNow.getTime() - dateAux.getTime());
-            numbOfDaysTotal += timestampDifference / (1000 * 60 * 60 * 24);
-        });
-        objRepositoryFound.averageDays = numbOfDaysTotal / objRepositoryFound.numberOfIssues;
-        this.calculateVarianceAgeIssue(objRepositoryFound);
-        return true;
-    }
-    calculateVarianceAgeIssue(objRepositoryFound) {
-        let timestampDiference = 0;
-        let numbOfDaysTotal = 0;
-        let varianceValue = 0;
-        objRepositoryFound.issuesList.forEach((objIssueNormalized) => {
-            const dateAux = new Date(objIssueNormalized.created_at);
-            const dateNow = new Date();
-            timestampDiference = (dateNow.getTime() - dateAux.getTime());
-            numbOfDaysTotal = timestampDiference / (1000 * 60 * 60 * 24);
-            const differenceValue = (numbOfDaysTotal - objRepositoryFound.averageDays);
-            varianceValue += ((differenceValue * differenceValue) / objRepositoryFound.numberOfIssues);
-        });
-        objRepositoryFound.varianceValue = varianceValue;
-        objRepositoryFound.stdDeviation = Math.sqrt(varianceValue);
-        return true;
     }
     getPaginationValue(objPagination, strHeaderLink) {
         const strLinkToIssuesPages = strHeaderLink.split(',');
@@ -137,7 +114,7 @@ class GitClient {
     }
     async getIssuesAllPages(objPagination, objRepositoryFound) {
         let bResult = false;
-        bResult = await this.searchIssue(objPagination)
+        bResult = await this.searchIssues(objPagination)
             .then(async (objResponse) => {
             var _a;
             bResult = true;
@@ -179,13 +156,13 @@ class GitClient {
             headers: objHeader
         };
     }
-    async searchRepo(strRepo) {
+    async searchRepo(strRepo, bSearchIssues = true) {
         this.setBaseUrl('https://api.github.com');
         this.setUrlMiddle('/search/repositories');
         this.setUrlQuery(`?q=${strRepo}`);
         const response = await this.request.get(`${this.pvStrBaseUrl + this.pvStrUrlMiddle + this.pvStrQuery}`, this.pvObjHeader);
         const objRepositoryFound = this.normalizeResponseRepo(response.data);
-        if (objRepositoryFound.bFound) {
+        if (objRepositoryFound.bFound && bSearchIssues) {
             objRepositoryFound.bFound = await this.searchAllIssues(objRepositoryFound);
         }
         return objRepositoryFound;
@@ -213,11 +190,39 @@ class GitClient {
         }
         return false;
     }
-    async searchIssue(objPagination) {
+    normalizeIssues(objRepositoryFound) {
+        let bResult = false;
+        let arrIssueNomalized = [];
+        if (objRepositoryFound.bFound) {
+            objRepositoryFound.issuesList.forEach((objIssue) => {
+                const objIssueNomalized = {
+                    url: "",
+                    title: "",
+                    state: "",
+                    assignees: [],
+                    created_at: "",
+                    updated_at: "",
+                };
+                bResult = this.isValidPoint(objIssue, objIssue);
+                if (bResult) {
+                    Object.keys(objIssueNomalized).forEach((key, index) => {
+                        objIssueNomalized[key] = objIssue[key];
+                    });
+                    arrIssueNomalized = [...arrIssueNomalized, objIssueNomalized];
+                }
+            });
+            if (bResult) {
+                objRepositoryFound.issuesList = [...arrIssueNomalized];
+                objRepositoryFound.bIssueIsNormalized = true;
+            }
+        }
+        return bResult;
+    }
+    async searchIssues(objPagination) {
         const response = await this.request.get(objPagination.strCurrent, this.pvObjHeader);
         return response;
     }
-    async searchAllIssues(objRepositoryFound) {
+    async searchAllIssues(objRepositoryFound, bNormalizeIssue = true) {
         var _a;
         const strRepoName = ((_a = objRepositoryFound.data) === null || _a === void 0 ? void 0 : _a.full_name) || "";
         const issuesPagination = 100;
@@ -239,11 +244,36 @@ class GitClient {
                 }
                 return true;
             });
-            bResult = this.normalizeIssue(objRepositoryFound);
+            if (bNormalizeIssue) {
+                bResult = this.normalizeIssues(objRepositoryFound);
+            }
             objRepositoryFound.numberOfIssues = objRepositoryFound.issuesList.length;
-            this.calculateAvgAgeIssue(objRepositoryFound);
         }
         return bResult;
+    }
+    async updateIssues(objRepositoryFound) {
+        var _a;
+        if (objRepositoryFound.bFound && ((_a = objRepositoryFound.data) === null || _a === void 0 ? void 0 : _a.name)) {
+            const objOldList = { ...objRepositoryFound.issuesList || [] };
+            let bResult = await this.searchAllIssues(objRepositoryFound);
+            if (bResult) {
+                objRepositoryFound.data.open_issues = objRepositoryFound.numberOfIssues + objRepositoryFound.numberOfPullRequests;
+                return true;
+            }
+            objRepositoryFound.issuesList = objOldList;
+        }
+        return false;
+    }
+    async updateRepoInfo(objRepositoryFound) {
+        var _a;
+        if (objRepositoryFound.bFound && ((_a = objRepositoryFound.data) === null || _a === void 0 ? void 0 : _a.name)) {
+            const objNewRepositoryFound = await this.searchRepo(objRepositoryFound.data.name);
+            if (objNewRepositoryFound.bFound) {
+                objRepositoryFound.data = objNewRepositoryFound.data;
+                return true;
+            }
+        }
+        return false;
     }
 }
 exports.GitClient = GitClient;

@@ -19,7 +19,7 @@ describe('Quality Analizer Service',()=>{
             ...objQualityParameters,...gitClientSearchRepoNormalized
         }
         const qualityAnalizer = new QualityAnalizer(new GitClient());
-        const strSearchRepository = "React";
+        const strSearchRepository = "react";
         const objSearchResult = await qualityAnalizer.searchRepositoryData(strSearchRepository);
         expect(objSearchResult).toEqual(expect.objectContaining(gitClientSearchRepoNormalized));//Compare static part only
 

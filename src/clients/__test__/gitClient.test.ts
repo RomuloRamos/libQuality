@@ -19,13 +19,7 @@ describe("Search Repos in GitHub", ()=>{
         const gitClient = new GitClient(mockedRequest);
         const strRepoSeach= "React";    
         const response:iRepositoryFound = await gitClient.searchRepo(strRepoSeach);
-        // const objToCompare = {
-        //     bFound: response.bFound,
-        //     data: response.data,
-        //     numberOfPullRequests: response.numberOfPullRequests,
-        //     numberOfIssues: response.numberOfIssues,
-        //     issuesList: response.issuesList
-        // };
+
         expect(response).toEqual(searchRepoReactNormalized);
     })
     it("This test request for the first pull_request object from a GitHub project", async()=>{

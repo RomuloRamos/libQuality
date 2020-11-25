@@ -6,7 +6,11 @@
         "private": false,
         "description": "A declarative, efficient, and flexible JavaScript library for building user interfaces.",
         "open_issues": 645,
-        "pulls_url": "https://api.github.com/repos/facebook/react/pulls{/number}"
+        "pulls_url": "https://api.github.com/repos/facebook/react/pulls{/number}",
+        "forks_count": 31645,
+        "forks_url": "https://api.github.com/repos/facebook/react/forks",
+        "stargazers_count": 159354,
+        "collaborators_url": "https://api.github.com/repos/facebook/react/collaborators{/collaborator}"
     },
     "issuesList": [
         {
@@ -519,5 +523,6 @@
         }
     ],
     "numberOfIssues": 53,
-    "numberOfPullRequests": 47
+    "numberOfPullRequests": 47,
+    "bIssueIsNormalized": true
 }

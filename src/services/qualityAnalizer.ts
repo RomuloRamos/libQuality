@@ -14,7 +14,8 @@ export class QualityAnalizer {
 
     public async searchRepositoryData(strRepository:string): Promise<iSearchRepoResult>{
 
-        const objRepositoryFound = await this.gitClient.searchRepo(strRepository);        
+        const objRepositoryFound = await this.gitClient.searchRepo(strRepository);   
+           
         const objQualityParameters:iQualityParameters = {
             averageDays: 0,
             stdDeviation: 0,
@@ -23,11 +24,46 @@ export class QualityAnalizer {
         const objSearchRepoResult:iSearchRepoResult = {
             ...objQualityParameters, ...objRepositoryFound
         };
-        const bResult = this.calculateAvgAgeIssue(objSearchRepoResult);
-        if(!(bResult === true)){
-            objSearchRepoResult.bFound = false;
-        }
+        if(objRepositoryFound.bFound){
+            
+            const bResult = this.calculateAvgAgeIssue(objSearchRepoResult);
+            if(!(bResult === true)){
+                objSearchRepoResult.bFound = false;//Maybe I'll change this...
+            }
+        }  
         return objSearchRepoResult;
+    }
+
+    public async updateIssuesMetrics(objSearchRepoResult:iSearchRepoResult): Promise<boolean>{
+        if(objSearchRepoResult.bFound && objSearchRepoResult.data?.full_name){
+            const objRepositoryToSearch: iRepositoryFound={
+                bFound: objSearchRepoResult.bFound,
+                data: objSearchRepoResult.data,
+                bIssueIsNormalized: objSearchRepoResult.bIssueIsNormalized,
+                issuesList: objSearchRepoResult.issuesList,
+                numberOfIssues: objSearchRepoResult.numberOfIssues,
+                numberOfPullRequests: objSearchRepoResult.numberOfPullRequests,
+            }
+
+            let bResult = await this.gitClient.updateIssues(objRepositoryToSearch);
+                        
+            if(bResult){
+            
+                objSearchRepoResult.bFound =                objRepositoryToSearch.bFound;
+                objSearchRepoResult.bIssueIsNormalized =    objRepositoryToSearch.bIssueIsNormalized;
+                objSearchRepoResult.data =                  objRepositoryToSearch.data;
+                objSearchRepoResult.issuesList =            objRepositoryToSearch.issuesList;
+                objSearchRepoResult.numberOfIssues =        objRepositoryToSearch.numberOfIssues;
+                objSearchRepoResult.numberOfPullRequests =  objRepositoryToSearch.numberOfPullRequests;
+            
+                bResult = this.calculateAvgAgeIssue(objSearchRepoResult);
+                if(!(bResult === true)){
+                    objSearchRepoResult.bFound = false;//Maybe I'll change this...
+                }
+            }
+            return bResult;
+        }
+        return false;
     }
 
     //

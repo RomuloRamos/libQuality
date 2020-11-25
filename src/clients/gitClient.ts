@@ -1,6 +1,7 @@
 import {AxiosResponse, AxiosStatic} from 'axios';
 import config, {IConfig} from 'config';
 import * as HttpUtil from '@src/util/request';
+
 //Creating a interface to response shape
 export interface searchOrgResponse {    //Example:
     login: string;                      // "RomuloRamos",
@@ -23,6 +24,12 @@ export interface searchOrgResponse {    //Example:
     updated_at: string;                 // "2020-11-06T03:33:42Z"
 }
 
+export interface searchRepositoriesResponse {
+    total_count: number;
+    incomplete_results: boolean;
+    items: pointRepositories[];  
+}
+
 export interface pointRepositories{
     [index: string]: string|boolean|number;
     name: string;
@@ -31,12 +38,10 @@ export interface pointRepositories{
     description: string;
     open_issues: number;
     pulls_url: string;
-}
-
-export interface searchRepositoriesResponse {
-    total_count: number;
-    incomplete_results: boolean;
-    items: pointRepositories[];  
+    forks_count: number;
+    forks_url: string;
+    stargazers_count: number;
+    collaborators_url: string;
 }
 
 export interface iRepositoryFound {
@@ -69,31 +74,34 @@ export interface iIssueNormalized {
 const gitHubResourceConfig: IConfig = config.get('App.resources.Github');
 export class GitClient {
 
-    private pvStrBaseUrl: string;
-    private pvStrUrlMiddle: string;
-    private pvStrQuery: string;
+    private pvStrBaseUrl = "";
+    private pvStrUrlMiddle = "";
+    private pvStrQuery = "";
     private pvObjHeader = {};
 
-    constructor(protected request = HttpUtil) {
-    this.pvStrBaseUrl = gitHubResourceConfig.get('apiUrl');
-    this.pvStrBaseUrl = 'https://api.github.com/';
-    this.pvStrUrlMiddle = '/search/repositories';
-    this.pvStrQuery = '';
-    const objHeader = {
+    constructor(protected request = new HttpUtil.Request()) {
+        this.setBaseUrl(gitHubResourceConfig.get('apiUrl'));
+        this.setUrlMiddle('/search/repositories');
+        this.setUrlQuery('');
+
+        const objHeader = {
             Accept: 'application/vnd.github.v3+json',
             Authorization: `token ${gitHubResourceConfig.get('apiToken')}`
-    };
-    this.setHeader(objHeader);
-}
+        };
+        this.setHeader(objHeader);
+    }
 
     //Checking Key validation to each element received on object
     private isValidPoint(pointRerence: any, pointReceived: Partial<searchOrgResponse>): boolean{
-
+        if(pointReceived && pointRerence) {
+            
             const bResult: boolean = Object.keys(pointRerence).every(keyFound=>{
                 const otherRESULT = !!(keyFound in pointReceived);
                 return otherRESULT;
             });
             return bResult;//It shoul return true if all necessary object-keys existing in pointReceived
+        }
+        return false;
     }
 
     private normalizeResponseRepo(objResponse:searchRepositoriesResponse): iRepositoryFound{
@@ -105,6 +113,10 @@ export class GitClient {
             description: "",
             open_issues: 0,
             pulls_url:"",
+            forks_count: 0,
+            forks_url: "",
+            stargazers_count: 0,
+            collaborators_url: "",
         };
         const objRepositoryFound: iRepositoryFound = {
             bFound: false,
@@ -125,39 +137,6 @@ export class GitClient {
         }
 
         return objRepositoryFound;
-    }
-
-    public normalizeIssues(objRepositoryFound: iRepositoryFound): boolean{
-        
-        let bResult = false;
-        let arrIssueNomalized: iIssueNormalized[] = [];
-        if(objRepositoryFound.bFound){
-
-            objRepositoryFound.issuesList.forEach((objIssue:any)=>{
-                const objIssueNomalized: iIssueNormalized = {
-                    url: "",
-                    title:  "",
-                    state:  "",
-                    assignees: [],
-                    created_at: "",
-                    updated_at: "",
-                }
-                bResult = this.isValidPoint(objIssue, objIssue);
-                if(bResult){//Valid object Issue
-                    Object.keys(objIssueNomalized).forEach((key, index) => {
-        
-                        objIssueNomalized[key] = objIssue[key];
-                    });    
-                    arrIssueNomalized = [...arrIssueNomalized, objIssueNomalized];   
-                }
-            });
-            if(bResult){
-                objRepositoryFound.issuesList = [...arrIssueNomalized];
-                objRepositoryFound.bIssueIsNormalized =true;
-            }   
-        }
-
-        return bResult;
     }
 
     private getPaginationValue(objPagination: iPagination,strHeaderLink: string): boolean {
@@ -192,11 +171,11 @@ export class GitClient {
     private async getIssuesAllPages(objPagination: iPagination,objRepositoryFound: iRepositoryFound): Promise<boolean>{
         
         let bResult = false;
-        bResult = await this.searchIssue(objPagination)
+        bResult = await this.searchIssues(objPagination)
         .then(async(objResponse: HttpUtil.Response)=>{
             bResult = true;
             objRepositoryFound.issuesList = objRepositoryFound.issuesList.concat(objResponse.data);
-            if((!(objPagination.strCurrent === objPagination.strLast)) && (objResponse.headers.link)){
+            if((!(objPagination.strCurrent === objPagination.strLast)) && (objResponse.headers?.link)){
 
                 bResult = this.getPaginationValue(objPagination, objResponse.headers?.link)
                 bResult = (bResult && await this.getIssuesAllPages(objPagination, objRepositoryFound));
@@ -245,7 +224,7 @@ export class GitClient {
         };
     }
   
-    public async searchRepo(strRepo: string): Promise<iRepositoryFound>{
+    public async searchRepo(strRepo: string, bSearchIssues = true): Promise<iRepositoryFound>{
         this.setBaseUrl('https://api.github.com');
         this.setUrlMiddle('/search/repositories');
         this.setUrlQuery(`?q=${strRepo}`);
@@ -253,7 +232,7 @@ export class GitClient {
             `${this.pvStrBaseUrl + this.pvStrUrlMiddle + this.pvStrQuery}`, this.pvObjHeader
         );
         const objRepositoryFound: iRepositoryFound = this.normalizeResponseRepo(response.data);//Now, its only the first element on items array.
-        if(objRepositoryFound.bFound){
+        if(objRepositoryFound.bFound && bSearchIssues){
             // objRepositoryFound.bFound = await this.searchNuberOfIssus(objRepositoryFound);
             objRepositoryFound.bFound = await this.searchAllIssues(objRepositoryFound);
         }
@@ -270,7 +249,7 @@ export class GitClient {
         return response;
     }
 
-    private async searchNuberOfIssus(objRepositoryFound: iRepositoryFound): Promise<boolean>{
+    public async searchNuberOfIssus(objRepositoryFound: iRepositoryFound): Promise<boolean>{
 
         if(objRepositoryFound?.bFound){
             const strRepoName:string = objRepositoryFound.data?.full_name ||"";
@@ -289,7 +268,40 @@ export class GitClient {
         return false;
     }
 
-    public async searchIssue(objPagination: iPagination): Promise<HttpUtil.Response>{
+    public normalizeIssues(objRepositoryFound: iRepositoryFound): boolean{
+        
+        let bResult = false;
+        let arrIssueNomalized: iIssueNormalized[] = [];
+        if(objRepositoryFound.bFound){
+
+            objRepositoryFound.issuesList.forEach((objIssue:any)=>{
+                const objIssueNomalized: iIssueNormalized = {
+                    url: "",
+                    title:  "",
+                    state:  "",
+                    assignees: [],
+                    created_at: "",
+                    updated_at: "",
+                }
+                bResult = this.isValidPoint(objIssue, objIssue);
+                if(bResult){//Valid object Issue
+                    Object.keys(objIssueNomalized).forEach((key, index) => {
+        
+                        objIssueNomalized[key] = objIssue[key];
+                    });    
+                    arrIssueNomalized = [...arrIssueNomalized, objIssueNomalized];   
+                }
+            });
+            if(bResult){
+                objRepositoryFound.issuesList = [...arrIssueNomalized];
+                objRepositoryFound.bIssueIsNormalized =true;
+            }   
+        }
+
+        return bResult;
+    }
+
+    public async searchIssues(objPagination: iPagination): Promise<HttpUtil.Response>{
 
         const response = await this.request.get(
             objPagination.strCurrent, this.pvObjHeader
@@ -327,5 +339,29 @@ export class GitClient {
         }
         return bResult;
         
+    }
+
+    public async updateIssues(objRepositoryFound: iRepositoryFound): Promise<boolean>{
+        if(objRepositoryFound.bFound && objRepositoryFound.data?.name){
+            const objOldList = {...objRepositoryFound.issuesList||[]}
+            let bResult = await this.searchAllIssues(objRepositoryFound);
+            if(bResult){
+                objRepositoryFound.data.open_issues = objRepositoryFound.numberOfIssues + objRepositoryFound.numberOfPullRequests;
+                return true;
+            }
+            objRepositoryFound.issuesList = objOldList;
+        }
+        return false;
+    }
+
+    public async updateRepoInfo(objRepositoryFound: iRepositoryFound): Promise<boolean>{
+        if(objRepositoryFound.bFound && objRepositoryFound.data?.name){
+            const objNewRepositoryFound: iRepositoryFound = await this.searchRepo(objRepositoryFound.data.name);
+            if(objNewRepositoryFound.bFound){
+                objRepositoryFound.data = objNewRepositoryFound.data;
+                return true;
+            }
+        }
+        return false;
     }
 }

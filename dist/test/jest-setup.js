@@ -11,4 +11,5 @@ beforeAll(async () => {
     await server.init();
     global.testRequest = supertest_1.default(server.getApp());
 });
+afterAll(async () => await server.close());
 //# sourceMappingURL=jest-setup.js.map
