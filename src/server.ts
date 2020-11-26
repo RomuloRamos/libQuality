@@ -1,11 +1,13 @@
 //Main file
 
-import './util/module-alias';
+import { Application } from 'express';
 import { Server } from '@overnightjs/core'; //Through this class, Overnight server the express to application
 import bodyParser from 'body-parser';
-import { GitRequestController } from './controllers/gitRequest';
-import { Application } from 'express';
 import * as database from '@src/database';
+import { GitRequestController } from './controllers/gitRequest';
+import { RepositorySearchController } from './controllers/searchRepository';
+import './util/module-alias';
+
 
 export class SetupServer extends Server {
   constructor(private port = 3000) {
@@ -19,7 +21,8 @@ export class SetupServer extends Server {
 
   private setupControllers(): void {
     const gitRequestController = new GitRequestController();
-    this.addControllers([gitRequestController]);
+    const repositorySearchController = new RepositorySearchController();
+    this.addControllers([gitRequestController,repositorySearchController]);
   }
 
   //This is responsible to Server Initializing

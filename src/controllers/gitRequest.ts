@@ -4,7 +4,7 @@ import { Request, Response } from 'express';
 @Controller('gitRequest')
 export class GitRequestController {
   @Get('')
-  public getGitData(_: Request, res: Response): void {
-    res.send([{ resp: 'TODO - Objeto de retorno' }]);
+  public async searchRepository( _: Request, res: Response): Promise<void> {
+     await function(){console.log("Parei aqui")};
   }
 }
