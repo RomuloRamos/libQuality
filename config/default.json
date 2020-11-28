@@ -7,7 +7,7 @@
         "resources":{
             "Github":{
                 "apiUrl":"https://api.github.com",
-                "apiToken":"c08b844f099835e41fa70640b3da47982fabdb22"
+                "apiToken":"do-not-herd-code"
             }
         }
     }
