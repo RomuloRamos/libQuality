@@ -1,0 +1,14 @@
+{
+    "App":{
+        "port":"APP_PORT",
+        "database":{
+            "mongoUrl":"MONGODB_URL"
+        },
+        "resources":{
+            "Github":{
+                "apiUrl":"GITHUB_API_URL",
+                "apiToken":"GITHUB_API_TOKEN"
+            }
+        }
+    }
+}
