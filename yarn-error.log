@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\ICTS\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add @octoki/rest
+  C:\Program Files\nodejs\node.exe C:\Users\ICTS\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add @overnight/core
 
 PATH: 
   C:\Program Files\Microsoft MPI\Bin\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files\Microsoft\Web Platform Installer\;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Users\ICTS\AppData\Local\Microsoft\WindowsApps;C:\Users\ICTS\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\ICTS\AppData\Roaming\npm
@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@octoki%2frest: Not found
+  Error: https://registry.yarnpkg.com/@overnight%2fcore: Not found
       at Request.params.callback [as _callback] (C:\Users\ICTS\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:66988:18)
       at Request.self.callback (C:\Users\ICTS\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:140662:22)
       at Request.emit (events.js:315:20)
@@ -35,8 +35,8 @@ npm manifest:
     "scripts": {
       "build": "tsc",
       "start": "yarn build && node dist/src/index.js",
-      "start:dev": "ts-node-dev sr c/index.ts",
-      "test": "echo \"Error: no test specified\" && exit 1",
+      "start:local": "ts-node-dev src/index.ts",
+      "test": "yarn test:unit && yarn test:functional",
       "test:functional": "jest --projects ./test --runInBand",
       "test:unit": "jest",
       "lint": "eslint ./src ./test --ext",
@@ -45,7 +45,7 @@ npm manifest:
       "style:fix": "prettier --write src/**/*.ts test/**/*.ts"
     },
     "author": "Rômulo Ramos",
-    "license": "ISC",
+    "license": "MIT",
     "devDependencies": {
       "@types/axios": "^0.14.0",
       "@types/config": "^0.0.37",
@@ -66,13 +66,6 @@ npm manifest:
       "typescript": "^4.0.5"
     },
     "dependencies": {
-      "@octokit/action": "^3.1.2",
-      "@octokit/auth-action": "^1.3.0",
-      "@octokit/core": "^3.2.1",
-      "@octokit/plugin-paginate-rest": "^2.6.0",
-      "@octokit/plugin-rest-endpoint-methods": "^4.2.1",
-      "@octokit/types": "^5.5.0",
-      "@overnightjs/core": "^1.7.5",
       "axios": "^0.21.0",
       "body-parser": "^1.19.0",
       "config": "^3.3.2",
@@ -648,12 +641,17 @@ Lockfile:
       "@octokit/types" "^5.0.0"
       universal-user-agent "^6.0.0"
   
-  "@octokit/plugin-paginate-rest@^2.2.4", "@octokit/plugin-paginate-rest@^2.6.0":
+  "@octokit/plugin-paginate-rest@^2.2.0", "@octokit/plugin-paginate-rest@^2.2.4", "@octokit/plugin-paginate-rest@^2.6.0":
     version "2.6.0"
     resolved "https://registry.yarnpkg.com/@octokit/plugin-paginate-rest/-/plugin-paginate-rest-2.6.0.tgz#03416396e7a227b268c5b827365238f620a9c5c1"
     integrity sha512-o+O8c1PqsC5++BHXfMZabRRsBIVb34tXPWyQLyp2IXq5MmkxdipS7TXM4Y9ldL1PzY9CTrCsn/lzFFJGM3oRRA==
     dependencies:
       "@octokit/types" "^5.5.0"
+  
+  "@octokit/plugin-request-log@^1.0.0":
+    version "1.0.2"
+    resolved "https://registry.yarnpkg.com/@octokit/plugin-request-log/-/plugin-request-log-1.0.2.tgz#394d59ec734cd2f122431fbaf05099861ece3c44"
+    integrity sha512-oTJSNAmBqyDR41uSMunLQKMX0jmEXbwD1fpz8FG27lScV3RhtGfBa1/BBLym+PxcC16IBlF7KH9vP1BUYxA+Eg==
   
   "@octokit/plugin-rest-endpoint-methods@4.2.1", "@octokit/plugin-rest-endpoint-methods@^4.2.1":
     version "4.2.1"
@@ -685,6 +683,16 @@ Lockfile:
       node-fetch "^2.6.1"
       once "^1.4.0"
       universal-user-agent "^6.0.0"
+  
+  "@octokit/rest@^18.0.9":
+    version "18.0.9"
+    resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-18.0.9.tgz#964d707d914eb34b1787895fdcacff96de47844d"
+    integrity sha512-CC5+cIx974Ygx9lQNfUn7/oXDQ9kqGiKUC6j1A9bAVZZ7aoTF8K6yxu0pQhQrLBwSl92J6Z3iVDhGhGFgISCZg==
+    dependencies:
+      "@octokit/core" "^3.0.0"
+      "@octokit/plugin-paginate-rest" "^2.2.0"
+      "@octokit/plugin-request-log" "^1.0.0"
+      "@octokit/plugin-rest-endpoint-methods" "4.2.1"
   
   "@octokit/types@^5.0.0", "@octokit/types@^5.0.1", "@octokit/types@^5.5.0":
     version "5.5.0"
