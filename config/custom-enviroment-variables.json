@@ -1,8 +1,8 @@
 {
-    "App":{
-        "port":"APP_PORT",
-        "database":{
-            "mongoUrl":"MONGODB_URL"
+    "App": {
+        "port": "APP_PORT",
+        "database": {
+            "mongoUrl": "MONGODB_URL"
         },
         "resources":{
             "Github":{
