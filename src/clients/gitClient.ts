@@ -1,6 +1,7 @@
-import {AxiosResponse, AxiosStatic} from 'axios';
+import {AxiosResponse, AxiosStatic} from 'axios';//Changed to HttpUtil
 import config, {IConfig} from 'config';
 import * as HttpUtil from '@src/util/request';
+import {iRepositoryData} from '@src/models/userRepositories';
 
 //Creating a interface to response shape
 export interface searchOrgResponse {    //Example:
@@ -24,33 +25,21 @@ export interface searchOrgResponse {    //Example:
     updated_at: string;                 // "2020-11-06T03:33:42Z"
 }
 
-export interface searchRepositoriesResponse {
-    total_count: number;
-    incomplete_results: boolean;
-    items: pointRepositories[];  
-}
 
-export interface pointRepositories{
-    [index: string]: string|boolean|number;
-    name: string;
-    full_name: string;
-    private: boolean;
-    description: string;
-    open_issues: number;
-    pulls_url: string;
-    forks_count: number;
-    forks_url: string;
-    stargazers_count: number;
-    collaborators_url: string;
-}
 
 export interface iRepositoryFound {
     bFound: boolean;
-    data: pointRepositories|null;
+    data: iRepositoryData;
     numberOfPullRequests: number;
     numberOfIssues: number;
     issuesList: unknown[];
     bIssueIsNormalized: boolean;
+}
+
+export interface searchRepositoriesResponse {
+    total_count: number;
+    incomplete_results: boolean;
+    items: iRepositoryData[];  
 }
 
 export interface iPagination {
@@ -106,8 +95,9 @@ export class GitClient {
 
     private normalizeResponseRepo(objResponse:searchRepositoriesResponse): iRepositoryFound{
         
-        const objNormalized: pointRepositories = {
+        const objNormalized: iRepositoryData = {
             name: "",
+            id:0,
             full_name: "",
             private: false,
             description: "",
@@ -120,7 +110,7 @@ export class GitClient {
         };
         const objRepositoryFound: iRepositoryFound = {
             bFound: false,
-            data: null,
+            data: {} as iRepositoryData,
             numberOfPullRequests: 0,
             numberOfIssues:0,
             issuesList: [],
@@ -128,7 +118,7 @@ export class GitClient {
         }
         objRepositoryFound.bFound = this.isValidPoint(objNormalized, objResponse.items[0]);
         if(objRepositoryFound.bFound){
-            const objToCopy:pointRepositories = objResponse.items[0];
+            const objToCopy:iRepositoryData = objResponse.items[0];
             Object.keys(objNormalized).forEach((key, other) => {
 
                 objNormalized[key] = objToCopy[key];
@@ -344,7 +334,7 @@ export class GitClient {
     public async updateIssues(objRepositoryFound: iRepositoryFound): Promise<boolean>{
         if(objRepositoryFound.bFound && objRepositoryFound.data?.name){
             const objOldList = {...objRepositoryFound.issuesList||[]}
-            let bResult = await this.searchAllIssues(objRepositoryFound);
+            const bResult = await this.searchAllIssues(objRepositoryFound);
             if(bResult){
                 objRepositoryFound.data.open_issues = objRepositoryFound.numberOfIssues + objRepositoryFound.numberOfPullRequests;
                 return true;

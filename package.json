@@ -6,8 +6,8 @@
   "scripts": {
     "build": "tsc",
     "start": "yarn build && node dist/src/index.js",
-    "start:dev": "ts-node-dev sr c/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:local": "ts-node-dev src/index.ts",
+    "test": "yarn test:unit && yarn test:functional",
     "test:functional": "jest --projects ./test --runInBand",
     "test:unit": "jest",
     "lint": "eslint ./src ./test --ext",
@@ -16,7 +16,7 @@
     "style:fix": "prettier --write src/**/*.ts test/**/*.ts"
   },
   "author": "Rômulo Ramos",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/config": "^0.0.37",

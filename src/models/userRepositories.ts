@@ -2,6 +2,7 @@ import mongoose, { Document, Model } from "mongoose";
 
 export interface iRepositoryData{
     [index: string]: string|boolean|number;
+    id: number;
     name: string;
     full_name: string;
     private: boolean;
@@ -14,15 +15,17 @@ export interface iRepositoryData{
     collaborators_url: string;
 }
 
-export interface iRepositorySearch  {
+export interface iUserRepositories  {
     _id?: string;
     user_id: number;
+    repo_id: number;
     repositoryData: iRepositoryData;
 }
 
 const schema  = new mongoose.Schema(
     {
         user_id:{type:Number, required: true},
+        repo_id:{type:Number, required: true},
         repositoryData: {type:mongoose.Schema.Types.Mixed, required: true},     
     },
     {
@@ -36,7 +39,7 @@ const schema  = new mongoose.Schema(
     }    
 );
 
-interface RepositorySearchModel extends Omit<iRepositorySearch,'_id'>, Document{}
-export const RepositorySearch: Model<RepositorySearchModel> = mongoose.model('RepositorySearch', schema);
+interface UserRepositoriesModel extends Omit<iUserRepositories,'_id'>, Document{}
+export const UserRepositories: Model<UserRepositoriesModel> = mongoose.model('UserRepositories', schema);
 
  

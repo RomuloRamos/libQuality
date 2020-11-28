@@ -1,12 +1,10 @@
-//Main file
-
-import { Application } from 'express';
-import { Server } from '@overnightjs/core'; //Through this class, Overnight server the express to application
-import bodyParser from 'body-parser';
-import * as database from '@src/database';
-import { GitRequestController } from './controllers/gitRequest';
-import { RepositorySearchController } from './controllers/searchRepository';
 import './util/module-alias';
+import { Server } from '@overnightjs/core'; //Through this class, Overnight server the express to application
+import { Application } from 'express';
+import bodyParser from 'body-parser';
+import { GitRequestController } from './controllers/gitRequest';
+import { UserRepositoriesController } from './controllers/userRepositories';
+import * as database from '@src/database';
 
 
 export class SetupServer extends Server {
@@ -17,12 +15,13 @@ export class SetupServer extends Server {
   //This is responsible to configure the Server and Express
   private setupExpress(): void {
     this.app.use(bodyParser.json());
+    this.setupControllers();
   }
 
   private setupControllers(): void {
     const gitRequestController = new GitRequestController();
-    const repositorySearchController = new RepositorySearchController();
-    this.addControllers([gitRequestController,repositorySearchController]);
+    const userRepositoriesController = new UserRepositoriesController();
+    this.addControllers([gitRequestController,userRepositoriesController]);
   }
 
   //This is responsible to Server Initializing
@@ -32,6 +31,12 @@ export class SetupServer extends Server {
     await  this.setupDatabase();
   }
 
+  public start(): void{
+    this.app.listen(this.port, ()=>{
+      console.info('Server listening of port: ', this.port);
+    })
+  }
+  
   public async close(): Promise<void>{
     await database.close();
   }
@@ -43,4 +48,5 @@ export class SetupServer extends Server {
   public getApp(): Application {
     return this.app;
   }
+  
 }

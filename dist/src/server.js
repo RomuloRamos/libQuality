@@ -27,6 +27,7 @@ require("./util/module-alias");
 const core_1 = require("@overnightjs/core");
 const body_parser_1 = __importDefault(require("body-parser"));
 const gitRequest_1 = require("./controllers/gitRequest");
+const userRepositories_1 = require("./controllers/userRepositories");
 const database = __importStar(require("@src/database"));
 class SetupServer extends core_1.Server {
     constructor(port = 3000) {
@@ -35,15 +36,22 @@ class SetupServer extends core_1.Server {
     }
     setupExpress() {
         this.app.use(body_parser_1.default.json());
+        this.setupControllers();
     }
     setupControllers() {
         const gitRequestController = new gitRequest_1.GitRequestController();
-        this.addControllers([gitRequestController]);
+        const userRepositoriesController = new userRepositories_1.UserRepositoriesController();
+        this.addControllers([gitRequestController, userRepositoriesController]);
     }
     async init() {
         this.setupExpress();
         this.setupControllers();
         await this.setupDatabase();
+    }
+    start() {
+        this.app.listen(this.port, () => {
+            console.info('Server listening of port: ', this.port);
+        });
     }
     async close() {
         await database.close();

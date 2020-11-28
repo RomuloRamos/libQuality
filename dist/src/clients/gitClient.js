@@ -55,6 +55,7 @@ class GitClient {
     normalizeResponseRepo(objResponse) {
         const objNormalized = {
             name: "",
+            id: 0,
             full_name: "",
             private: false,
             description: "",
@@ -67,7 +68,7 @@ class GitClient {
         };
         const objRepositoryFound = {
             bFound: false,
-            data: null,
+            data: {},
             numberOfPullRequests: 0,
             numberOfIssues: 0,
             issuesList: [],
@@ -116,11 +117,11 @@ class GitClient {
         let bResult = false;
         bResult = await this.searchIssues(objPagination)
             .then(async (objResponse) => {
-            var _a;
+            var _a, _b;
             bResult = true;
             objRepositoryFound.issuesList = objRepositoryFound.issuesList.concat(objResponse.data);
-            if ((!(objPagination.strCurrent === objPagination.strLast)) && (objResponse.headers.link)) {
-                bResult = this.getPaginationValue(objPagination, (_a = objResponse.headers) === null || _a === void 0 ? void 0 : _a.link);
+            if ((!(objPagination.strCurrent === objPagination.strLast)) && ((_a = objResponse.headers) === null || _a === void 0 ? void 0 : _a.link)) {
+                bResult = this.getPaginationValue(objPagination, (_b = objResponse.headers) === null || _b === void 0 ? void 0 : _b.link);
                 bResult = (bResult && await this.getIssuesAllPages(objPagination, objRepositoryFound));
             }
             return bResult;
@@ -255,7 +256,7 @@ class GitClient {
         var _a;
         if (objRepositoryFound.bFound && ((_a = objRepositoryFound.data) === null || _a === void 0 ? void 0 : _a.name)) {
             const objOldList = { ...objRepositoryFound.issuesList || [] };
-            let bResult = await this.searchAllIssues(objRepositoryFound);
+            const bResult = await this.searchAllIssues(objRepositoryFound);
             if (bResult) {
                 objRepositoryFound.data.open_issues = objRepositoryFound.numberOfIssues + objRepositoryFound.numberOfPullRequests;
                 return true;

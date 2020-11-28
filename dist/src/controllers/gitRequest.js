@@ -11,17 +11,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GitRequestController = void 0;
 const core_1 = require("@overnightjs/core");
+const qualityAnalizer_1 = require("@src/services/qualityAnalizer");
 let GitRequestController = class GitRequestController {
-    getGitData(_, res) {
-        res.send([{ resp: 'TODO - Objeto de retorno' }]);
+    async searchRepository(req, res) {
+        console.log('gitResquest/metrics: ', req.body);
+        const strRepository = req.body.strFullName;
+        const qualityAnalizer = new qualityAnalizer_1.QualityAnalizer();
+        const result = await qualityAnalizer.searchRepositoryData(strRepository);
+        res.status(200).send(result);
     }
 };
 __decorate([
-    core_1.Get(''),
+    core_1.Get('metrics'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", void 0)
-], GitRequestController.prototype, "getGitData", null);
+    __metadata("design:returntype", Promise)
+], GitRequestController.prototype, "searchRepository", null);
 GitRequestController = __decorate([
     core_1.Controller('gitRequest')
 ], GitRequestController);
