@@ -3,7 +3,7 @@
 
 name: Complete workflow
 
-on: ['push']
+on: ['push', 'pull_request']
 
 jobs:
 
@@ -47,4 +47,4 @@ jobs:
       if: github.ref == 'refs/heads/master'
       run: git remote add umbler ssh://git@geonosis.deploy.umbler.com:9922/j9onzy6j/libquality-com-br.git && git push umbler master
       env:
-        CI: true
+        CI: true 
