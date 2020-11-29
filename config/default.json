@@ -2,12 +2,12 @@
     "App":{
         "port":3000,
         "database":{
-            "mongoUrl":"mongodb://localhost:27017/libquality"
+            "mongoUrl":"mongodb://romuloramos:ubatuba1990@mongo_libquality:27017/libquality"
         },
         "resources":{
             "Github":{
                 "apiUrl":"https://api.github.com",
-                "apiToken":""
+                "apiToken":"c08b844f099835e41fa70640b3da47982fabdb22"
             }
         }
     }
