@@ -1,0 +1,104 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+      "version": "1.3.0",
+      "title": "LibQuality",
+      "description": "LibQuality API",
+      "termsOfService": "http://api_url/terms/",
+      "license": {
+        "name": "Apache 2.0",
+        "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+      }
+    },
+    "servers": [
+      {
+        "url": "http://libquality-com-br.umbler.net ",
+        "description": "Production Server"
+      },
+      {
+        "url": "http://localhost:3000/",
+        "description": "Local server"
+      }
+    ],
+    "paths": {
+      "/gitRequest/metrics": {
+        "get": {
+          "description": "This service Should return the métrics to a repository",
+          "operationId": "gitReques",
+          "parameters": [
+            {
+              "name": "strFullName",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/components/schemas/strFullName"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "The repository metrics and data",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/GitRequest"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Not Found!",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  },
+                  "example": {
+                    "message": "User not found",
+                    "code": "404",
+                    "error": "Not Found"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+        "schemas": {
+            "str_FullName": {
+                "type": "string",
+                "example": "React"
+            },
+            "GitRequest": {
+                "type": "object",
+                "properties": {
+                    "strFullName": {
+                        "$ref": "#/components/schemas/str_FullName"
+                    }
+                }
+            },
+            "Error": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  },
+                  "code": {
+                    "type": "number"
+                  },
+                  "error": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "documentation": {
+                    "type": "string"
+                }
+            }
+          }
+        }
+    }
+}

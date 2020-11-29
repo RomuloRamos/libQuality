@@ -161,6 +161,7 @@ class GitClient {
         this.setBaseUrl('https://api.github.com');
         this.setUrlMiddle('/search/repositories');
         this.setUrlQuery(`?q=${strRepo}`);
+        console.info("searchRepo - asking for: " + this.pvStrBaseUrl + this.pvStrUrlMiddle + this.pvStrQuery + gitHubResourceConfig.get('apiToken'));
         const response = await this.request.get(`${this.pvStrBaseUrl + this.pvStrUrlMiddle + this.pvStrQuery}`, this.pvObjHeader);
         const objRepositoryFound = this.normalizeResponseRepo(response.data);
         if (objRepositoryFound.bFound && bSearchIssues) {

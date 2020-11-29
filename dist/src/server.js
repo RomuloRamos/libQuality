@@ -29,6 +29,9 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const gitRequest_1 = require("./controllers/gitRequest");
 const userRepositories_1 = require("./controllers/userRepositories");
 const database = __importStar(require("@src/database"));
+const api_schema_json_1 = __importDefault(require("./api.schema.json"));
+const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
+const express_openapi_validator_1 = require("express-openapi-validator");
 class SetupServer extends core_1.Server {
     constructor(port = 3000) {
         super();
@@ -58,6 +61,14 @@ class SetupServer extends core_1.Server {
     }
     async setupDatabase() {
         await database.connect();
+    }
+    async docSetup() {
+        this.app.use('/docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(api_schema_json_1.default));
+        await new express_openapi_validator_1.OpenApiValidator({
+            apiSpec: api_schema_json_1.default,
+            validateRequests: true,
+            validateResponses: true,
+        }).install(this.app);
     }
     getApp() {
         return this.app;

@@ -13,6 +13,7 @@ export class GitRequestController {
     const strRepository:string = req.body.strFullName; 
     const qualityAnalizer = new QualityAnalizer();
     const result = await qualityAnalizer.searchRepositoryData(strRepository);
+    console.info('gitResquest: ',result);
     res.status(200).send(result);
   }
 

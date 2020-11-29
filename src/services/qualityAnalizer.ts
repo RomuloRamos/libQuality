@@ -31,6 +31,7 @@ export class QualityAnalizer {
                 objSearchRepoResult.bFound = false;//Maybe I'll change this...
             }
         }  
+        console.info(objSearchRepoResult)
         return objSearchRepoResult;
     }
 

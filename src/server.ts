@@ -5,7 +5,10 @@ import bodyParser from 'body-parser';
 import { GitRequestController } from './controllers/gitRequest';
 import { UserRepositoriesController } from './controllers/userRepositories';
 import * as database from '@src/database';
-
+import apiSchema from './api.schema.json';
+import swaggerUi from 'swagger-ui-express';
+import { OpenApiValidator} from 'express-openapi-validator';
+import {OpenAPIV3} from 'express-openapi-validator/dist/framework/types';
 
 export class SetupServer extends Server {
   constructor(private port = 3000) {
@@ -27,6 +30,7 @@ export class SetupServer extends Server {
   //This is responsible to Server Initializing
   public async init(): Promise<void> {
     this.setupExpress();
+    // await this.docSetup();
     this.setupControllers();
     await  this.setupDatabase();
   }
@@ -43,6 +47,15 @@ export class SetupServer extends Server {
 
   private async setupDatabase():Promise<void>{
     await database.connect();
+  }
+
+  private async docSetup(): Promise<void>{
+    this.app.use('/docs', swaggerUi.serve, swaggerUi.setup(apiSchema));
+    await new OpenApiValidator({
+      apiSpec: apiSchema as OpenAPIV3.Document,
+      validateRequests: true,
+      validateResponses: true,
+    }).install(this.app);
   }
 
   public getApp(): Application {

@@ -14,10 +14,11 @@ const core_1 = require("@overnightjs/core");
 const qualityAnalizer_1 = require("@src/services/qualityAnalizer");
 let GitRequestController = class GitRequestController {
     async searchRepository(req, res) {
-        console.log('gitResquest/metrics: ', req.body);
+        console.info('gitResquest/metrics: ', req.body);
         const strRepository = req.body.strFullName;
         const qualityAnalizer = new qualityAnalizer_1.QualityAnalizer();
         const result = await qualityAnalizer.searchRepositoryData(strRepository);
+        console.info('gitResquest: ', result);
         res.status(200).send(result);
     }
 };
