@@ -5,7 +5,16 @@ import {QualityAnalizer, iSearchRepoResult} from '@src/services/qualityAnalizer'
 @Controller('gitRequest')
 export class GitRequestController {
 
-  /****** This service Should return the métrics to a repository */
+/****** This service Should return the métrics to a repository */
+
+/**
+ * Search for a repository on GitHub, and calculate metrics about it issues, 
+ * like avarage and standart deviation
+ *
+ * @author Rômulo Ramos
+ * @param string - One string representing the Name or Full Name to Repository
+ * @return {Object} Javascript Object representing the Repository found, the issues and metrics.
+ */
   @Get('metrics')
   public async searchRepository( req: Request, res: Response): Promise<void> {
 
@@ -22,6 +31,4 @@ export class GitRequestController {
       res.status(401).send(error.message);      
     }
   }
-
-    /****** This service Should return the métrics to a repository */
 }

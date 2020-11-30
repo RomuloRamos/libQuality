@@ -10,17 +10,32 @@ import swaggerUi from 'swagger-ui-express';
 import { OpenApiValidator} from 'express-openapi-validator';
 import {OpenAPIV3} from 'express-openapi-validator/dist/framework/types';
 
-
+/**
+ * This class is responsible for calling and config the intances of controllers, database, midwares
+ * and provide the method to start the Application. 
+ *
+ * @author Rômulo Ramos
+ * @param -
+ * @return -
+ */
 export class SetupServer extends Server {
   constructor(private port = 3000) {
     super();
   }
 
-  //This is responsible to configure the Server and Express
+ /**
+ * This method is responsible to configure the Server and Express with midwares and
+ * Controllers
+ *
+ * @author Rômulo Ramos
+ * @param -
+ * @return -
+ */
   private setupExpress(): void {
     this.app.use(bodyParser.json());
     this.setupControllers();
   }
+
 
   private setupControllers(): void {
     const gitRequestController = new GitRequestController();
@@ -31,7 +46,7 @@ export class SetupServer extends Server {
   //This is responsible to Server Initializing
   public async init(): Promise<void> {
     this.setupExpress();
-    // await this.docSetup();
+    //await this.docSetup();
     this.setupControllers();
     await  this.setupDatabase();
   }

@@ -1,104 +1,252 @@
 {
-    "openapi": "3.0.1",
-    "info": {
-      "version": "1.3.0",
-      "title": "LibQuality",
-      "description": "LibQuality API",
-      "termsOfService": "http://api_url/terms/",
-      "license": {
-        "name": "Apache 2.0",
-        "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
-      }
-    },
-    "servers": [
-      {
-        "url": "http://libquality-com-br.umbler.net ",
-        "description": "Production Server"
-      },
-      {
-        "url": "http://localhost:3000/",
-        "description": "Local server"
-      }
-    ],
-    "paths": {
-      "/gitRequest/metrics": {
-        "get": {
-          "description": "This service Should return the métrics to a repository",
-          "operationId": "gitReques",
-          "parameters": [
-            {
-              "name": "strFullName",
-              "in": "body",
-              "required": true,
-              "schema": {
-                "$ref": "#/components/schemas/strFullName"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "The repository metrics and data",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/GitRequest"
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "Not Found!",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Error"
-                  },
-                  "example": {
-                    "message": "User not found",
-                    "code": "404",
-                    "error": "Not Found"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "components": {
-        "schemas": {
-            "str_FullName": {
-                "type": "string",
-                "example": "React"
-            },
-            "GitRequest": {
-                "type": "object",
-                "properties": {
-                    "strFullName": {
-                        "$ref": "#/components/schemas/str_FullName"
-                    }
-                }
-            },
-            "Error": {
-                "type": "object",
-                "properties": {
-                  "message": {
-                    "type": "string"
-                  },
-                  "code": {
-                    "type": "number"
-                  },
-                  "error": {
-                    "type": "string"
-                  },
-                  "description": {
-                    "type": "string"
-                  },
-                  "documentation": {
-                    "type": "string"
-                }
-            }
-          }
-        }
+  "openapi": "3.0.1",
+  "info": {
+    "version": "1.3.0",
+    "title": "LibQuality",
+    "description": "LibQuality API",
+    "termsOfService": "http://api_url/terms/",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     }
+  },
+  "servers": [
+    {
+      "url": "http://libquality-com-br.umbler.net ",
+      "description": "Production Server"
+    },
+    {
+      "url": "http://localhost:3000/",
+      "description": "Local server"
+    }
+  ],
+  "paths": {
+    "/gitRequest/metrics": {
+      "get": {
+        "description": "This service Should return the métrics to a repository",
+        "operationId": "gitReques",
+        "parameters": [
+          {
+            "name": "strFullName",
+            "in": "body",
+            "schema": {
+              "$ref": "#/components/schemas/strfullName"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description":  "The repository metrics and data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GitRequestResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Respository not found",
+                  "code": "404",
+                  "error": "Not Found"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "strfullName": {
+        "type": "string",
+        "example": "React"
+      },
+      "id":{
+        "type": "number",
+        "example": "10270250"
+      },
+      "name": {
+        "type": "string",
+        "example": "react"
+      },
+      "full_name": {
+        "type": "string",
+        "example": "facebook/react"
+      },
+      "private": {
+        "type": "boolean",
+        "example": "false"
+      },
+      "description": {
+        "type": "text",
+        "example": "A declarative, efficient, and flexible JavaScript library for building user interfaces."
+      },
+      "open_issues":{
+        "type": "number",
+        "example": "664"
+      },
+      "pulls_url":{
+        "type": "string",
+        "example": "https://api.github.com/repos/facebook/react/pulls{/number}"
+      },
+      "forks_count":{
+        "type": "number",
+        "example": "31758"
+      },
+      "forks_url":{
+        "type": "string",
+        "example": "https://api.github.com/repos/facebook/react/forks"
+      },
+      "stargazers_count":{
+        "type": "number",
+        "example": "159803"
+      },
+      "collaborators_url":{
+        "type": "string",
+        "example": "https://api.github.com/repos/facebook/react/collaborators{/collaborator}"
+      },
+      "averageDays":{
+        "type": "number",
+        "example": "609.9434419269593"
+      },
+      "stdDeviation":{
+        "type": "number",
+        "example": "556.0323184420243"
+      },
+      "varianceValue":{
+        "type": "number",
+        "example": "309171.93915201275"
+      },
+    "bFound":{
+        "type": "boolean",
+        "example": "false"
+      },
+      "numberOfPullRequests":{
+        "type": "number",
+        "example": "151"
+      },
+      "numberOfIssues":{
+        "type": "number",
+        "example": "513"
+      },
+      "issuesList":{
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "example": "https://api.github.com/repos/facebook/react/issues/20248"
+          },
+          "title": {
+            "type": "string",
+            "example": "Bug: [eslint-plugin-react-hooks] Constructions should be caught in default props/args"
+          },
+          "state": {
+            "type": "string",
+            "example": "open"
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2020-11-13T17:46:29Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "example": "2020-11-13T18:23:08Z"
+          }
+        }
+      },
+      "GitRequestResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "$ref": "#/components/schemas/name"
+              },
+              "id": {
+                "$ref": "#/components/schemas/id"
+              },
+              "full_name": {
+                "$ref": "#/components/schemas/full_name"
+              },
+              "private": {
+                "$ref": "#/components/schemas/private"
+              },
+              "description": {
+                "$ref": "#/components/schemas/description"
+              },
+              "open_issues": {
+                "$ref": "#/components/schemas/open_issues"
+              },
+              "pulls_url": {
+                "$ref": "#/components/schemas/pulls_url"
+              },
+              "forks_count": {
+                "$ref": "#/components/schemas/forks_count"
+              },
+              "forks_url": {
+                "$ref": "#/components/schemas/forks_url"
+              },
+              "stargazers_count": {
+                "$ref": "#/components/schemas/stargazers_count"
+              },
+              "collaborators_url": {
+                "$ref": "#/components/schemas/collaborators_url"
+              }
+            }
+          },
+          "averageDays":{
+            "$ref": "#/components/schemas/averageDays"
+          },
+          "stdDeviation":{
+            "$ref": "#/components/schemas/stdDeviation"          
+          },
+          "varianceValue":{
+          "$ref": "#/components/schemas/varianceValue"
+          },
+        "bFound":{
+            "$ref": "#/components/schemas/bFound"
+          },
+          "numberOfPullRequests":{
+            "$ref": "#/components/schemas/numberOfPullRequests"
+          },
+          "numberOfIssues":{
+            "$ref": "#/components/schemas/numberOfIssues"
+          },
+          "issuesList":{
+            "$ref": "#/components/schemas/issuesList"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "type": "number"
+          },
+          "error": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "documentation": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
 }
