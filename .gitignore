@@ -62,3 +62,28 @@ typings/
 
 # typescript compiled code
 dist/
+dist/src/index.js
+dist/src/index.js.map
+dist/src/server.js
+dist/src/server.js.map
+dist/src/clients/gitClient.js
+dist/src/clients/gitClient.js.map
+dist/src/clients/__test__/gitClient.test.js
+dist/src/clients/__test__/gitClient.test.js.map
+dist/src/controllers/gitRequest.js
+dist/src/controllers/gitRequest.js.map
+dist/src/util/module-alias.js
+dist/src/util/module-alias.js.map
+dist/test/jest-setup.js
+dist/test/jest-setup.js.map
+dist/test/test.js
+dist/test/test.js.map
+dist/test/fixtures/gitClient_searchFirstPull_React.json
+dist/test/fixtures/gitClient_searchIssues.json
+dist/test/fixtures/gitClient_searchOrg_romulo_normalized.json
+dist/test/fixtures/gitClient_searchOrg_romulo.json
+dist/test/fixtures/gitClient_searchRepo_React_normalized.json
+dist/test/fixtures/gitClient_searchRepo_React.json
+dist/test/functional/libQuality.test.js
+dist/test/functional/libQuality.test.js.map
+
