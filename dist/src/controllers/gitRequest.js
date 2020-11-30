@@ -15,11 +15,17 @@ const qualityAnalizer_1 = require("@src/services/qualityAnalizer");
 let GitRequestController = class GitRequestController {
     async searchRepository(req, res) {
         console.info('gitResquest/metrics: ', req.body);
-        const strRepository = req.body.strFullName;
-        const qualityAnalizer = new qualityAnalizer_1.QualityAnalizer();
-        const result = await qualityAnalizer.searchRepositoryData(strRepository);
-        console.info('gitResquest: ', result);
-        res.status(200).send(result);
+        try {
+            const strRepository = req.body.strFullName;
+            const qualityAnalizer = new qualityAnalizer_1.QualityAnalizer();
+            const result = await qualityAnalizer.searchRepositoryData(strRepository);
+            console.info('gitResquest: ', result);
+            res.status(200).send(result);
+        }
+        catch (error) {
+            console.error("gitResquest :", error);
+            res.status(401).send(error.message);
+        }
     }
 };
 __decorate([

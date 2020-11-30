@@ -1,13 +1,13 @@
 {
-    "App":{
+    "App": {
         "port":3000,
-        "database":{
-            "mongoUrl":"mongodb://localhost:27017/libquality"
+        "database": {
+            "mongoUrl": "URL AND USER TO MONGO"
         },
         "resources":{
             "Github":{
                 "apiUrl":"https://api.github.com",
-                "apiToken":""
+                "apiToken":"TOKEN-NEED-BE-CONFIGURED"
             }
         }
     }

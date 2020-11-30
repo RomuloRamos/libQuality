@@ -10,6 +10,7 @@ import swaggerUi from 'swagger-ui-express';
 import { OpenApiValidator} from 'express-openapi-validator';
 import {OpenAPIV3} from 'express-openapi-validator/dist/framework/types';
 
+
 export class SetupServer extends Server {
   constructor(private port = 3000) {
     super();
