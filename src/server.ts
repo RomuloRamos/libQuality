@@ -46,7 +46,7 @@ export class SetupServer extends Server {
   //This is responsible to Server Initializing
   public async init(): Promise<void> {
     this.setupExpress();
-    //await this.docSetup();
+    await this.docSetup();
     this.setupControllers();
     await  this.setupDatabase();
   }

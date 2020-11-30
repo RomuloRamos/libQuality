@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "version": "1.3.0",
+    "version": "1.0.0",
     "title": "LibQuality",
     "description": "LibQuality API",
     "termsOfService": "http://api_url/terms/",
@@ -28,10 +28,11 @@
         "parameters": [
           {
             "name": "strFullName",
-            "in": "body",
+            "in": "query",
             "schema": {
-              "$ref": "#/components/schemas/strfullName"
-            }
+              "$ref": "#/components/schemas/strFullName"
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -45,7 +46,7 @@
               }
             }
           },
-          "404": {
+          "401": {
             "description": "Not Found!",
             "content": {
               "application/json": {
@@ -54,7 +55,7 @@
                 },
                 "example": {
                   "message": "Respository not found",
-                  "code": "404",
+                  "code": "401",
                   "error": "Not Found"
                 }
               }
@@ -66,13 +67,13 @@
   },
   "components": {
     "schemas": {
-      "strfullName": {
+      "strFullName": {
         "type": "string",
         "example": "React"
       },
       "id":{
         "type": "number",
-        "example": "10270250"
+        "example": 10270250
       },
       "name": {
         "type": "string",
@@ -84,15 +85,15 @@
       },
       "private": {
         "type": "boolean",
-        "example": "false"
+        "example": false
       },
       "description": {
-        "type": "text",
+        "type": "string",
         "example": "A declarative, efficient, and flexible JavaScript library for building user interfaces."
       },
       "open_issues":{
         "type": "number",
-        "example": "664"
+        "example": 664
       },
       "pulls_url":{
         "type": "string",
@@ -100,7 +101,7 @@
       },
       "forks_count":{
         "type": "number",
-        "example": "31758"
+        "example": 31758
       },
       "forks_url":{
         "type": "string",
@@ -108,7 +109,7 @@
       },
       "stargazers_count":{
         "type": "number",
-        "example": "159803"
+        "example": 159803
       },
       "collaborators_url":{
         "type": "string",
@@ -116,27 +117,27 @@
       },
       "averageDays":{
         "type": "number",
-        "example": "609.9434419269593"
+        "example": 609.9434419269593
       },
       "stdDeviation":{
         "type": "number",
-        "example": "556.0323184420243"
+        "example": 556.0323184420243
       },
       "varianceValue":{
         "type": "number",
-        "example": "309171.93915201275"
+        "example": 309171.93915201275
       },
     "bFound":{
         "type": "boolean",
-        "example": "false"
+        "example": false
       },
       "numberOfPullRequests":{
         "type": "number",
-        "example": "151"
+        "example": 151
       },
       "numberOfIssues":{
         "type": "number",
-        "example": "513"
+        "example": 513
       },
       "issuesList":{
         "type": "object",

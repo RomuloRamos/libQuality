@@ -48,6 +48,7 @@ class SetupServer extends core_1.Server {
     }
     async init() {
         this.setupExpress();
+        await this.docSetup();
         this.setupControllers();
         await this.setupDatabase();
     }
