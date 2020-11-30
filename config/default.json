@@ -2,7 +2,7 @@
     "App": {
         "port":3000,
         "database": {
-            "mongoUrl": "URL AND USER TO MONGO"
+            "mongoUrl": "mongodb://localhost:27017/libquality"
         },
         "resources":{
             "Github":{
